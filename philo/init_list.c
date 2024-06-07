@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:53:12 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/07 15:55:58 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/07 17:03:47 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void set_values(phil *new_node, phil *head)
 	new_node->phil_id = id++;
 	new_node->sleep_time = head->sleep_time;
 	new_node->eat_time = head->eat_time;
-	new_node ->die_time = head->die_time;
+	new_node->die_time = head->die_time;
+	new_node->fork = head->fork;
 }
 
 phil *find_link(phil *head)

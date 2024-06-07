@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 15:37:42 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/07 15:46:12 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/07 16:43:14 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,7 @@ void error_exit(phil *head);
 void free_list(phil *head);
 void create_list(phil *head);
 void print_list(phil *head);
+void die_counter(phil *phil);
+void eat(phil *phil);
 
 #endif

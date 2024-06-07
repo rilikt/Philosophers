@@ -6,11 +6,11 @@
 #    By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/07 14:53:53 by timschmi          #+#    #+#              #
-#    Updated: 2024/06/07 15:10:39 by timschmi         ###   ########.fr        #
+#    Updated: 2024/06/07 16:27:37 by timschmi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS = init_list.c main.c error.c utils.c
+SRCS = init_list.c main.c error.c utils.c counters.c
 
 OFILES = $(SRCS:.c=.o)
 
