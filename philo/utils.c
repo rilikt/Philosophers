@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:06:54 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/07 15:41:31 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/09 16:57:58 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void print_list(phil *head)
 
 	while (temp)
 	{
-		printf("id: %d, s_time: %d, e_time: %d, d_time: %d, fork: %d\n", temp->phil_id, temp->sleep_time, temp->eat_time, temp->die_time, temp->fork);
+		printf("id: %d, s_time: %d, e_time: %d, d_time: %d, fork: %d tv_start: %ld\n", temp->phil_id, temp->sleep_time, temp->eat_time, temp->die_time, temp->fork, temp->tv_start->tv_sec);
 		if (temp->next == head)
 			return;
 		temp = temp->next;
@@ -37,6 +37,24 @@ void free_list(phil *head)
 		temp = nxt;
 	}
 	if (head)
-		free (head);
-	
+		free (head);	
+}
+
+int to_micro(int milli) // maybe choose a larger data type
+{
+	return (milli * 1000);
+}
+
+void set_forks(phil *phil)
+{
+	if (phil->fork && phil->next->fork)
+	{
+		phil->fork = 0;
+		phil->next->fork = 0;
+	}
+	else if (!phil->fork && !phil->next->fork)
+	{
+		phil->fork = 1;
+		phil->next->fork = 1;
+	}
 }
