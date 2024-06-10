@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 15:37:42 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/09 17:08:54 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/10 12:53:36 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ typedef struct s_args
 	int sleep_time;
 	int eat_time;
 	int die_time;
+	int reset_d_time;
+	int last_meal;
 	int fork;
 	struct s_args *next;
 	struct timeval *tv_start;
@@ -40,5 +42,6 @@ void eat(phil *phil);
 int to_micro(int milli);
 void set_forks(phil *phil);
 void display_message(char c, phil *phil);
+int get_time(phil *phil);
 
 #endif

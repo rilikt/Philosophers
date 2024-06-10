@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:06:54 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/09 16:57:58 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/10 13:05:51 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void print_list(phil *head)
 
 	while (temp)
 	{
-		printf("id: %d, s_time: %d, e_time: %d, d_time: %d, fork: %d tv_start: %ld\n", temp->phil_id, temp->sleep_time, temp->eat_time, temp->die_time, temp->fork, temp->tv_start->tv_sec);
+		printf("id: %d, s_time: %d, e_time: %d, d_time: %d, fork: %d tv_start: %d last meal:%d\n", temp->phil_id, temp->sleep_time, temp->eat_time, temp->die_time, temp->fork, temp->tv_start->tv_usec, temp->last_meal);
 		if (temp->next == head)
 			return;
 		temp = temp->next;
@@ -57,4 +57,13 @@ void set_forks(phil *phil)
 		phil->fork = 1;
 		phil->next->fork = 1;
 	}
+}
+
+int get_time(phil *phil)
+{	
+	struct timeval curr;
+
+	if (gettimeofday(&curr, NULL) == -1)
+		error_exit(phil);
+	return ((curr.tv_sec * 1000) + (curr.tv_usec / 1000));
 }
