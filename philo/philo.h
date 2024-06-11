@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 15:37:42 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/10 12:53:36 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/11 18:01:07 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,13 @@
 #include <pthread.h>
 #include <sys/time.h>
 
+
+typedef struct s_mutex
+{
+	pthread_mutex_t fork;
+
+}	t_mutex;
+
 typedef struct s_args
 {
 	int phil_id;
@@ -26,12 +33,13 @@ typedef struct s_args
 	int sleep_time;
 	int eat_time;
 	int die_time;
-	int reset_d_time;
 	int last_meal;
 	int fork;
+	t_mutex mutex;
 	struct s_args *next;
-	struct timeval *tv_start;
+	int start_time;
 }	phil;
+
 
 void error_exit(phil *head);
 void free_list(phil *head);
@@ -41,7 +49,9 @@ void die_counter(phil *phil);
 void eat(phil *phil);
 int to_micro(int milli);
 void set_forks(phil *phil);
+void grab_forks(phil *phil);
 void display_message(char c, phil *phil);
-int get_time(phil *phil);
+int get_time(void);
+void go_to_bed(phil *phil);
 
 #endif

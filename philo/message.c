@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:39:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/10 13:27:03 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/11 17:04:58 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,11 @@
 
 void display_message(char c, phil *phil)
 {
-	struct timeval end;
-	if (gettimeofday(&end, NULL) == -1)
-		error_exit(phil);
-	int u_sec = end.tv_usec - phil->tv_start->tv_usec;
-	int sec = end.tv_sec - phil->tv_start->tv_sec;
-	int t_stamp = ((sec * 1000) + (u_sec / 1000));
+	int end = get_time();
+	int t_stamp = end - phil->start_time;
+	// printf("start: %ld\n", phil->tv_start->tv_sec);
+
+	// printf("ts: %d\n", t_stamp);
 	if (c == 'e')
 		printf("%d %d is eating\n", t_stamp, phil->phil_id);
 	else if (c == 'f')
