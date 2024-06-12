@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 15:37:42 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/11 18:01:07 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/12 17:10:48 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@
 typedef struct s_mutex
 {
 	pthread_mutex_t fork;
+	pthread_mutex_t last_meal;
+	pthread_mutex_t dead;
+	pthread_mutex_t meal_count;
 
 }	t_mutex;
 
@@ -35,6 +38,9 @@ typedef struct s_args
 	int die_time;
 	int last_meal;
 	int fork;
+	int dead;
+	int full;
+	int meal_count;
 	t_mutex mutex;
 	struct s_args *next;
 	int start_time;
@@ -53,5 +59,8 @@ void grab_forks(phil *phil);
 void display_message(char c, phil *phil);
 int get_time(void);
 void go_to_bed(phil *phil);
+void set_dead(phil *head);
+int dead_check(phil *phil);
+int full_check(phil *phil);
 
 #endif
