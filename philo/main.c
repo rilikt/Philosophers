@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 15:37:11 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/12 17:36:50 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/14 16:04:34 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,12 @@
 void *philo_thread(void *arg) // find a better way to sync all threads so they start at the time when every thread is created
 {
 	phil *one = (phil *)arg;
-	display_message('t', one);
-	usleep(100);
+	inital_message(one);
+	one->ready = 1;
+	while (!threads_ready(one))
+	{
+		usleep(100);
+	}
 	eat(one);
 	if (full_check(one))
 		display_message('t', one);
@@ -53,7 +57,7 @@ void *watch_time(void *arg)
 				pthread_exit(NULL);
 			temp = temp->next;
 			i++;
-			usleep(1000);
+			usleep(500);
 		}
 	}
 }
@@ -74,6 +78,8 @@ void init_values(phil *one)
 	one->next = NULL;
 	one->start_time = get_time();
 	one->last_meal = get_time();
+
+	one->ready = 0;
 }
 
 int main(void)
@@ -85,48 +91,10 @@ int main(void)
 	create_list(one);
 	// print_list(one);
 	
-	int count = one->phil_count;
-	int i = 0;
-	pthread_t *tid = malloc((count + 1) * sizeof(pthread_t));
-	phil *temp = one;
-	
-	while (i < count)
-	{
-		pthread_mutex_init(&temp->mutex.fork, NULL);
-		pthread_mutex_init(&temp->mutex.last_meal, NULL);
-		pthread_mutex_init(&temp->mutex.dead, NULL);
-		pthread_mutex_init(&temp->mutex.meal_count, NULL);
-		i++;
-		temp = temp->next;
-	}
-	i = 0;
-	temp = one;
-	while (i < count)
-	{
-		pthread_create(&tid[i], NULL, philo_thread, temp);
-		usleep(10);
-		i++;
-		temp = temp->next;
-	}
-	pthread_create(&tid[count], NULL, watch_time, one);
+	create_mutex(one);
+	create_threads(one);
+	destroy_mutex(one);
 
-	i = 0;
-	while (i <= count)
-	{
-		pthread_join(tid[i], NULL);
-		i++;
-	}
-	i = 0;
-	temp = one;
-	while (i < count)
-	{
-		pthread_mutex_destroy(&temp->mutex.fork);
-		pthread_mutex_destroy(&temp->mutex.last_meal);
-		pthread_mutex_destroy(&temp->mutex.dead);
-		pthread_mutex_destroy(&temp->mutex.meal_count);
-		i++;
-		temp = temp->next;
-	}
 	free_list(one);
 	return (0);
 }

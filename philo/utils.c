@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:06:54 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/12 17:39:11 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/14 15:48:23 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,17 @@ void print_list(phil *head)
 void free_list(phil *head)
 {
 	phil *temp = head;
-	phil *nxt;
+	phil *next;
 	int i = 0;
+	int count = head->phil_count;
 
-	while(temp && i < head->phil_count)
+	if (head == NULL)
+		return;
+	while(temp && i < count)
 	{
-		nxt = temp->next;
+		next = temp->next;
 		free(temp);
-		temp = nxt;
+		temp = next;
 		i++;
 	}
 }
@@ -53,10 +56,30 @@ int to_micro(int milli) // maybe choose a larger data type
 	return (milli * 1000);
 }
 
+void get_forks(phil *phil)
+{
+	if (dead_check(phil)) // this can be removed maybe
+		return;
+	pthread_mutex_lock(&phil->mutex.fork);
+	pthread_mutex_lock(&phil->next->mutex.fork);
+	if (phil->fork && phil->next->fork)
+	{
+		phil->fork = 0;
+		phil->next->fork = 0;
+	}
+	else
+	{
+		pthread_mutex_unlock(&phil->mutex.fork);
+		pthread_mutex_unlock(&phil->next->mutex.fork);
+		eat(phil);
+	}
+}
+
 void set_forks(phil *phil)
 {
 	if (dead_check(phil)) // this can be removed maybe
 		return;
+
 	if (!phil->fork && !phil->next->fork)
 	{
 		phil->fork = 1;
@@ -66,16 +89,9 @@ void set_forks(phil *phil)
 
 void grab_forks(phil *phil)
 {
-	if (dead_check(phil) || full_check(phil))
-		return;
-
-	pthread_mutex_lock(&phil->mutex.fork);
-	pthread_mutex_lock(&phil->next->mutex.fork);
-
 	if (phil->fork && phil->next->fork)
 	{
-		phil->fork = 0;
-		phil->next->fork = 0;
+		get_forks(phil);
 		display_message('f', phil);
 		display_message('f', phil);
 
@@ -83,13 +99,13 @@ void grab_forks(phil *phil)
 		increment_meal_count(phil);
 		
 		display_message('e', phil);
-		usleep(phil->eat_time);
+		usleep(phil->eat_time); // program needs to exit while someone is eating aswell
 
 		set_forks(phil);
 		go_to_bed(phil);
 	}
-	pthread_mutex_unlock(&phil->mutex.fork);
-	pthread_mutex_unlock(&phil->next->mutex.fork);
+	else
+		return;
 }
 
 int get_time(void)

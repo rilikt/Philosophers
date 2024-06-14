@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 15:37:42 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/12 17:10:48 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/14 16:04:11 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_mutex
 
 typedef struct s_args
 {
+	int ready;
 	int phil_id;
 	int phil_count;
 	int sleep_time;
@@ -62,5 +63,12 @@ void go_to_bed(phil *phil);
 void set_dead(phil *head);
 int dead_check(phil *phil);
 int full_check(phil *phil);
+int threads_ready(phil *head);
+void inital_message(phil *phil);
+void *philo_thread(void *arg);
+void *watch_time(void *arg);
+void destroy_mutex(phil *head);
+void create_mutex(phil *head);
+void create_threads(phil *head);
 
 #endif
