@@ -6,18 +6,23 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 15:57:37 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/14 16:02:27 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/14 16:07:39 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void create_threads(phil *head)
+void	create_threads(phil *head)
 {
-	phil *temp = head;
-	int count = head->phil_count;
-	int i = 0;
-	pthread_t *tid = malloc((count + 1) * sizeof(pthread_t));
+	phil		*temp;
+	int			count;
+	int			i;
+	pthread_t	*tid;
+
+	temp = head;
+	count = head->phil_count;
+	i = 0;
+	tid = malloc((count + 1) * sizeof(pthread_t));
 	while (temp && i < count)
 	{
 		pthread_create(&tid[i], NULL, philo_thread, temp);
@@ -31,6 +36,5 @@ void create_threads(phil *head)
 		pthread_join(tid[i], NULL);
 		i++;
 	}
-	return;
+	return ;
 }
-

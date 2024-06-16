@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:23:56 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/14 15:53:23 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/16 14:27:39 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void go_to_bed(phil *phil)
 	pthread_mutex_unlock(&phil->mutex.fork);
 	pthread_mutex_unlock(&phil->next->mutex.fork);
 
-	usleep(phil->sleep_time);
+	better_usleep(phil->sleep_time, phil);
 
 	display_message('t', phil);
 	eat(phil);

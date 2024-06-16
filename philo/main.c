@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 15:37:11 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/14 16:04:34 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/16 14:42:15 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ void *watch_time(void *arg)
 			pthread_mutex_lock(&temp->mutex.last_meal);
 			if (((get_time() - temp->last_meal) > die_time) && !full_check(temp))
 			{
-				set_dead(one);
 				display_message('d', temp);
+				set_dead(one);
 				pthread_mutex_unlock(&temp->mutex.last_meal);
 				pthread_exit(NULL);
 			}
@@ -64,15 +64,17 @@ void *watch_time(void *arg)
 
 void init_values(phil *one)
 {
+
+
 	one->phil_id = 1;
 	one->phil_count = 5;
 	one->dead = 0;
-	one->full = 5;
+	one->full = 100;
 	one->meal_count = 0;
 
-	one->die_time = to_micro(300);
-	one->eat_time = to_micro(400);
-	one->sleep_time = to_micro(400);
+	one->die_time = to_micro(100);
+	one->eat_time = to_micro(200);
+	one->sleep_time = to_micro(200);
 
 	one->fork = 1;
 	one->next = NULL;
