@@ -6,18 +6,20 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 13:42:23 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/16 13:43:16 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/16 15:25:13 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void set_dead(phil *head)
+void	set_dead(phil *head)
 {
-	int i = 0;
-	phil *temp;
+	int		i;
+	phil	*temp;
+
+	i = 0;
 	temp = head;
-	while(i < head->phil_count)
+	while (i < head->phil_count)
 	{
 		pthread_mutex_lock(&temp->mutex.dead);
 		temp->dead = 1;
@@ -28,9 +30,10 @@ void set_dead(phil *head)
 	return ;
 }
 
-int dead_check(phil *phil)
+int	dead_check(phil *phil)
 {
-	int re;
+	int	re;
+
 	re = 0;
 	pthread_mutex_lock(&phil->mutex.dead);
 	if (phil->dead)
@@ -39,10 +42,12 @@ int dead_check(phil *phil)
 	return (re);
 }
 
-int full_check(phil *phil)
+int	full_check(phil *phil)
 {
 	int re;
 	re = 0;
+	if (phil->full == 0)
+		return (re);
 	pthread_mutex_lock(&phil->mutex.meal_count);
 	if (phil->meal_count == phil->full)
 		re = 1;

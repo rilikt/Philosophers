@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 15:37:42 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/16 14:13:24 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/16 15:13:41 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,8 @@ void destroy_mutex(phil *head);
 void create_mutex(phil *head);
 void create_threads(phil *head);
 void better_usleep(int time, phil *phil);
+void update_meal_count_time(phil *phil);
+void get_forks(phil *phil);
+void set_time(phil *head);
 
 #endif

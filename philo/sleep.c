@@ -1,43 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   more_utils.c                                       :+:      :+:    :+:   */
+/*   sleep.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/14 12:26:31 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/14 13:33:23 by timschmi         ###   ########.fr       */
+/*   Created: 2024/06/07 16:23:56 by timschmi          #+#    #+#             */
+/*   Updated: 2024/06/16 15:25:29 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int threads_ready(phil *head) // maybe mutex lock the ready variable
+void	go_to_bed(phil *phil)
 {
-	phil *temp = head;
-	int count = head->phil_count;
-	int i = 0;
-	while (temp && i < count)
+	if (dead_check(phil) || full_check(phil))
 	{
-		if (!temp->ready)
-			return (0);
-		temp = temp->next;
-		i++;
+		pthread_mutex_unlock(&phil->mutex.fork);
+		pthread_mutex_unlock(&phil->next->mutex.fork);
+		return ;
 	}
-	return (1);
-}
-
-void inital_message(phil *phil)
-{
-	static int i = 1;
-	while(1)
-	{
-		if (i == phil->phil_id && i <= phil->phil_count)
-		{
-			display_message('t', phil);
-			i++;
-			return;
-		}
-		usleep(50);
-	}
+	display_message('s', phil);
+	pthread_mutex_unlock(&phil->mutex.fork);
+	pthread_mutex_unlock(&phil->next->mutex.fork);
+	better_usleep(phil->sleep_time, phil);
+	display_message('t', phil);
+	eat(phil);
 }

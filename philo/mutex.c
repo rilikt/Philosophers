@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 15:54:58 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/16 13:57:35 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/16 15:26:08 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,10 @@
 
 void	create_mutex(phil *head)
 {
-	phil	*temp;
-	pthread_mutex_t print;
-
-	int		count;
-	int		i;
+	phil			*temp;
+	pthread_mutex_t	print;
+	int				count;
+	int				i;
 
 	temp = head;
 	count = head->phil_count;

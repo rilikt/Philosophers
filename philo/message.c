@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:39:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/16 14:32:14 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/16 15:26:28 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,4 @@ void	display_message(char c, phil *phil)
 	else if (c == 'd')
 		printf("%d %d died\n", t_stamp, phil->phil_id);
 	pthread_mutex_unlock(&phil->mutex.print_mutex);
-	
 }
