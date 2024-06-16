@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:06:54 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/16 15:28:14 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/16 16:49:59 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,18 +65,4 @@ int	to_micro(int milli) // maybe choose a larger data type
 	return (milli * 1000);
 }
 
-void	inital_message(phil *phil)
-{
-	static int	i = 1;
 
-	while (1)
-	{
-		if (i == phil->phil_id && i <= phil->phil_count)
-		{
-			display_message('t', phil);
-			i++;
-			return ;
-		}
-		usleep(50);
-	}
-}

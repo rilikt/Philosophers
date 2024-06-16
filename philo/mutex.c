@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 15:54:58 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/16 15:26:08 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/16 16:52:13 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	create_mutex(phil *head)
 		pthread_mutex_init(&temp->mutex.last_meal, NULL);
 		pthread_mutex_init(&temp->mutex.dead, NULL);
 		pthread_mutex_init(&temp->mutex.meal_count, NULL);
+		pthread_mutex_init(&temp->mutex.ready, NULL);
 		temp->mutex.print_mutex = print;
 		i++;
 		temp = temp->next;
@@ -52,6 +53,7 @@ void	destroy_mutex(phil *head)
 		pthread_mutex_destroy(&temp->mutex.last_meal);
 		pthread_mutex_destroy(&temp->mutex.dead);
 		pthread_mutex_destroy(&temp->mutex.meal_count);
+		pthread_mutex_destroy(&temp->mutex.ready);
 		i++;
 		temp = temp->next;
 	}

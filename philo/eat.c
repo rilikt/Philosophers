@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 14:45:04 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/16 15:25:49 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/16 16:46:51 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,21 +62,27 @@ void	get_forks(phil *phil)
 		phil->fork = 0;
 		phil->next->fork = 0;
 	}
-	else
-	{
-		pthread_mutex_unlock(&phil->mutex.fork);
-		pthread_mutex_unlock(&phil->next->mutex.fork);
-		eat(phil);
-	}
+	// else
+	// {
+	// 	pthread_mutex_unlock(&phil->mutex.fork);
+	// 	pthread_mutex_unlock(&phil->next->mutex.fork);
+	// 	eat(phil);
+	// }
 }
 
 void	set_forks(phil *phil) // maybe unlock forks here instead of sleep
 {
 	if (dead_check(phil))
+	{
+		pthread_mutex_unlock(&phil->mutex.fork);
+		pthread_mutex_unlock(&phil->next->mutex.fork);
 		return ;
+	}
 	if (!phil->fork && !phil->next->fork)
 	{
 		phil->fork = 1;
 		phil->next->fork = 1;
 	}
+	pthread_mutex_unlock(&phil->mutex.fork);
+	pthread_mutex_unlock(&phil->next->mutex.fork);
 }

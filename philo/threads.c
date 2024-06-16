@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 15:57:37 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/16 15:27:57 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/16 17:07:26 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 void	*philo_thread(void *arg) // find a better way to sync all threads so they start at the time when every thread is created
 {
 	phil *one = (phil *)arg;
-	inital_message(one);
+	pthread_mutex_lock(&one->mutex.ready);
 	one->ready = 1;
+	pthread_mutex_unlock(&one->mutex.ready);
 	while (!threads_ready(one))
 		usleep(100);
 	if ((one->phil_id % 2) != 0)
@@ -91,6 +92,7 @@ void	create_threads(phil *head)
 		pthread_join(tid[i], NULL);
 		i++;
 	}
+	free(tid);
 	return ;
 }
 
@@ -100,9 +102,11 @@ int	threads_ready(phil *head) // maybe mutex lock the ready variable
 	int count = head->phil_count;
 	int i = 0;
 	while (temp && i < count)
-	{
+	{	
+		pthread_mutex_lock(&temp->mutex.ready);
 		if (!temp->ready)
-			return (0);
+			return (pthread_mutex_unlock(&temp->mutex.ready), 0);
+		pthread_mutex_unlock(&temp->mutex.ready);
 		temp = temp->next;
 		i++;
 	}
