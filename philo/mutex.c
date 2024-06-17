@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 15:54:58 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/17 16:34:13 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:57:43 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	create_mutex(t_phil *head)
 	return (0);
 }
 
-void	destroy_mutex(t_phil *head, int count)
+int	destroy_mutex(t_phil *head, int count)
 {
 	t_phil	*temp;
 	int		i;
@@ -56,9 +56,10 @@ void	destroy_mutex(t_phil *head, int count)
 			|| pthread_mutex_destroy(&temp->mutex.ready) != 0)
 		{
 			printf("mutex destroy failed.\n");
-			return ;
+			return (1);
 		}
 		i++;
 		temp = temp->next;
 	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 15:37:42 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/17 16:43:11 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:58:32 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int					threads_ready(t_phil *head);
 void				inital_message(int count);
 void				*philo_thread(void *arg);
 void				*watch_time(void *arg);
-void				destroy_mutex(t_phil *head, int count);
+int					destroy_mutex(t_phil *head, int count);
 int					create_mutex(t_phil *head);
 int					create_threads(t_phil *head);
 void				better_usleep(int time, t_phil *phil);

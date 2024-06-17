@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 15:37:11 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/17 16:34:19 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:58:09 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int	main(int argc, char **argv)
 	inital_message(one->phil_count);
 	if (create_threads(one))
 		return (destroy_mutex(one, one->phil_count), free_list(one), 1);
-	destroy_mutex(one, one->phil_count);
+	if (destroy_mutex(one, one->phil_count))
+		return (free_list(one), 1);
 	free_list(one);
 	return (0);
 }
