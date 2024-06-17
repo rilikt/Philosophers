@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 15:37:42 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/17 16:58:32 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/17 20:39:44 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_mutex
 typedef struct s_args
 {
 	int				ready;
+	int				t_sync;
 	int				phil_id;
 	int				phil_count;
 	int				sleep_time;
@@ -79,5 +80,7 @@ int					check_death_time(t_phil *temp, int die_time, int count);
 int					all_full(t_phil *head);
 void				update_meal_count(t_phil *phil);
 int					join_threads(pthread_t *tid, int count);
+void				think_offset(t_phil *phil);
+void				set_time(t_phil *head);
 
 #endif

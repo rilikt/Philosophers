@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 15:57:37 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/17 16:49:41 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/17 20:49:09 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,17 @@ void	*philo_thread(void *arg)
 	pthread_mutex_lock(&one->mutex.ready);
 	one->ready = 1;
 	pthread_mutex_unlock(&one->mutex.ready);
-	while (!threads_ready(one))
-		usleep(100);
+	threads_ready(one);
+	while (1)
+	{
+		pthread_mutex_lock(&one->mutex.ready);
+		if (one->t_sync)
+		{
+			pthread_mutex_unlock(&one->mutex.ready);
+			break;
+		}
+		pthread_mutex_unlock(&one->mutex.ready);
+	}
 	if ((one->phil_id % 2) != 0)
 		better_usleep((one->eat_time / 2), one);
 	eat(one);
@@ -37,6 +46,8 @@ void	*watch_time(void *arg)
 	one = (t_phil *)arg;
 	count = one->phil_count;
 	die_time = one->die_time;
+	threads_ready(one);
+	set_time(one);
 	while (1)
 	{
 		if (check_death_time(one, die_time, count))
@@ -104,11 +115,17 @@ int	threads_ready(t_phil *head)
 	while (temp && i < count)
 	{
 		pthread_mutex_lock(&temp->mutex.ready);
-		if (!temp->ready)
-			return (pthread_mutex_unlock(&temp->mutex.ready), 0);
-		pthread_mutex_unlock(&temp->mutex.ready);
-		temp = temp->next;
-		i++;
+		if (temp->ready)
+		{
+			pthread_mutex_unlock(&temp->mutex.ready);
+			temp = temp->next;
+			i++;
+		}
+		else
+		{
+			pthread_mutex_unlock(&temp->mutex.ready);
+			usleep(60);
+		}
 	}
 	return (1);
 }

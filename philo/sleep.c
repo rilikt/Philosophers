@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:23:56 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/17 16:34:45 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/17 19:26:35 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,7 @@ void	go_to_bed(t_phil *phil)
 	display_message('s', phil);
 	better_usleep(phil->sleep_time, phil);
 	display_message('t', phil);
+	if ((phil->phil_count % 2) != 0)
+		think_offset(phil);
 	eat(phil);
 }
