@@ -6,13 +6,13 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:53:12 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/17 13:25:13 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:37:11 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	set_values(phil *new_node, phil *head)
+void	set_values(t_phil *new_node, t_phil *head)
 {
 	static int	id = 2;
 
@@ -30,9 +30,9 @@ void	set_values(phil *new_node, phil *head)
 	new_node->ready = head->ready;
 }
 
-phil	*find_link(phil *head)
+t_phil	*find_link(t_phil *head)
 {
-	phil	*temp;
+	t_phil	*temp;
 
 	temp = head;
 	while (temp && temp->next != head)
@@ -40,12 +40,12 @@ phil	*find_link(phil *head)
 	return (temp);
 }
 
-int	append_node(phil *head)
+int	append_node(t_phil *head)
 {
-	phil	*new_node;
-	phil	*prev;
+	t_phil	*new_node;
+	t_phil	*prev;
 
-	new_node = (phil *)malloc(sizeof(phil));
+	new_node = (t_phil *)malloc(sizeof(t_phil));
 	if (!new_node)
 		return (printf("malloc error.\n"), 1);
 	if (!head->next)
@@ -60,12 +60,16 @@ int	append_node(phil *head)
 	return (0);
 }
 
-void	create_list(phil *head)
+int	create_list(t_phil *head)
 {
-	int count = head->phil_count;
+	int	count;
+
+	count = head->phil_count;
 	while (count > 1)
 	{
-		append_node(head);
+		if (append_node(head))
+			return (1);
 		count--;
 	}
+	return (0);
 }

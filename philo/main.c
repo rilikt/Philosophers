@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 15:37:11 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/17 13:54:14 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:34:19 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,19 @@
 
 int	main(int argc, char **argv)
 {
-	phil	*one;
-	one = NULL;
-	
-	if (check_arguments(argc, argv, &one))
-		return(1);
+	t_phil	*one;
 
-	create_list(one);
-	create_mutex(one);
-	// set_time(one);
+	one = NULL;
+	if (check_arguments(argc, argv, &one))
+		return (1);
+	if (create_list(one))
+		return (free_list(one), 1);
+	if (create_mutex(one))
+		return (free_list(one), 1);
 	inital_message(one->phil_count);
-	create_threads(one);
-	destroy_mutex(one);
+	if (create_threads(one))
+		return (destroy_mutex(one, one->phil_count), free_list(one), 1);
+	destroy_mutex(one, one->phil_count);
 	free_list(one);
 	return (0);
 }

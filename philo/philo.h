@@ -6,19 +6,19 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 15:37:42 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/17 13:56:13 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:43:11 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
+# include <limits.h>
 # include <pthread.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/time.h>
 # include <unistd.h>
-# include <limits.h>
 
 typedef struct s_mutex
 {
@@ -47,38 +47,37 @@ typedef struct s_args
 	t_mutex			mutex;
 	struct s_args	*next;
 	int				start_time;
-}					phil;
+}					t_phil;
 
 void				error_msg(void);
-void				free_list(phil *head);
-void				create_list(phil *head);
-void				print_list(phil *head);
-void				die_counter(phil *phil);
-void				eat(phil *phil);
-int					to_micro(int milli);
-void				set_forks(phil *phil);
-void				grab_forks(phil *phil);
-void				display_message(char c, phil *phil);
+void				free_list(t_phil *head);
+int					create_list(t_phil *head);
+void				eat(t_phil *phil);
+void				set_forks(t_phil *phil);
+void				grab_forks(t_phil *phil);
+void				display_message(char c, t_phil *phil);
 int					get_time(void);
-void				go_to_bed(phil *phil);
-void				set_dead(phil *head);
-int					dead_check(phil *phil);
-int					full_check(phil *phil);
-int					threads_ready(phil *head);
+void				go_to_bed(t_phil *phil);
+void				set_dead(t_phil *head);
+int					dead_check(t_phil *phil);
+int					full_check(t_phil *phil);
+int					threads_ready(t_phil *head);
 void				inital_message(int count);
 void				*philo_thread(void *arg);
 void				*watch_time(void *arg);
-void				destroy_mutex(phil *head);
-void				create_mutex(phil *head);
-void				create_threads(phil *head);
-void				better_usleep(int time, phil *phil);
-void				update_meal_count_time(phil *phil);
-void				get_forks(phil *phil);
-void				set_time(phil *head);
-void	init_values(phil *one, int i, int value);
-int check_arguments(int argc, char **argv, phil **one);
-long long int	ft_atoi(const char *str);
-int check_str(int argc, char **argv);
-
+void				destroy_mutex(t_phil *head, int count);
+int					create_mutex(t_phil *head);
+int					create_threads(t_phil *head);
+void				better_usleep(int time, t_phil *phil);
+void				update_meal_time(t_phil *phil);
+void				get_forks(t_phil *phil);
+void				init_values(t_phil *one, int i, int value);
+int					check_arguments(int argc, char **argv, t_phil **one);
+long long int		ft_atoi(const char *str);
+int					check_str(int argc, char **argv);
+int					check_death_time(t_phil *temp, int die_time, int count);
+int					all_full(t_phil *head);
+void				update_meal_count(t_phil *phil);
+int					join_threads(pthread_t *tid, int count);
 
 #endif

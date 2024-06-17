@@ -6,13 +6,13 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:05:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/17 13:01:55 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:28:18 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void error_msg(void)
+void	error_msg(void)
 {
 	printf("Error.\n");
 	printf("============================================================\n");
@@ -24,10 +24,4 @@ void error_msg(void)
 	printf("and optional number_of_times_each_philosopher_must_eat\n");
 	printf("all values should be positive and within the range of INT\n");
 	printf("============================================================\n");
-
-
-
-	
-
-	// free_list(head);
 }

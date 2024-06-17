@@ -6,19 +6,19 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 14:45:04 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/16 16:46:51 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:34:40 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	eat(phil *phil)
+void	eat(t_phil *phil)
 {
 	if (phil->next)
 	{
 		while (1)
 		{
-			if (!dead_check(phil) && !full_check(phil))
+			if (!dead_check(phil) && !all_full(phil))
 				grab_forks(phil);
 			else
 				return ;
@@ -31,21 +31,22 @@ void	eat(phil *phil)
 	}
 }
 
-void	grab_forks(phil *phil)
+void	grab_forks(t_phil *phil)
 {
 	get_forks(phil);
 	display_message('f', phil);
 	display_message('f', phil);
-	update_meal_count_time(phil);
+	update_meal_time(phil);
 	display_message('e', phil);
 	better_usleep(phil->eat_time, phil);
+	update_meal_count(phil);
 	set_forks(phil);
 	go_to_bed(phil);
 }
 
-void	get_forks(phil *phil)
+void	get_forks(t_phil *phil)
 {
-	if (dead_check(phil))
+	if (dead_check(phil) || all_full(phil))
 		return ;
 	if ((phil->phil_id % 2) == 0)
 	{
@@ -62,17 +63,11 @@ void	get_forks(phil *phil)
 		phil->fork = 0;
 		phil->next->fork = 0;
 	}
-	// else
-	// {
-	// 	pthread_mutex_unlock(&phil->mutex.fork);
-	// 	pthread_mutex_unlock(&phil->next->mutex.fork);
-	// 	eat(phil);
-	// }
 }
 
-void	set_forks(phil *phil) // maybe unlock forks here instead of sleep
+void	set_forks(t_phil *phil)
 {
-	if (dead_check(phil))
+	if (dead_check(phil) || all_full(phil))
 	{
 		pthread_mutex_unlock(&phil->mutex.fork);
 		pthread_mutex_unlock(&phil->next->mutex.fork);

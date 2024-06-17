@@ -6,28 +6,29 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 12:51:24 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/17 13:56:10 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:39:55 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int check_arguments(int argc, char **argv, phil **one)
+int	check_arguments(int argc, char **argv, t_phil **one)
 {
-	int i = 1;
-	long int n;
+	int			i;
+	long int	n;
 
+	i = 1;
 	if ((argc != 5 && argc != 6) || check_str(argc, argv))
-		return(error_msg(), 1);
-	*one = (phil *)malloc(sizeof(phil));
+		return (error_msg(), 1);
+	*one = (t_phil *)malloc(sizeof(t_phil));
 	if (*one == NULL)
 		return (printf("malloc error.\n"), 1);
 	while (i < argc)
 	{
 		n = ft_atoi(argv[i]);
-		if (n < 0 || n > INT_MAX)
-			return (free(one), error_msg(), 1);
-		else 
+		if (n < 0 || n > INT_MAX || (i == 1 && n == 0))
+			return (free(*one), error_msg(), 1);
+		else
 			init_values(*one, i, n);
 		i++;
 	}
@@ -39,8 +40,8 @@ int check_arguments(int argc, char **argv, phil **one)
 
 long long int	ft_atoi(const char *str)
 {
-	int				i;
-	int				sign;
+	int			i;
+	int			sign;
 	long int	num;
 
 	num = 0;
@@ -64,45 +65,46 @@ long long int	ft_atoi(const char *str)
 	return (sign * num);
 }
 
-void	init_values(phil *one, int i, int value)
+void	init_values(t_phil *one, int i, int value)
 {
-	int time;
 	if (i == 1)
 		one->phil_count = value;
 	else if (i == 2)
-		one->die_time = to_micro(value);
+		one->die_time = value;
 	else if (i == 3)
-		one->eat_time = to_micro(value);
+		one->eat_time = value;
 	else if (i == 4)
-		one->sleep_time = to_micro(value);
+		one->sleep_time = value;
 	else if (i == 5)
 		one->full = value;
 	else if (i == 6)
 		one->full = value;
 	else
 	{
-		time = get_time();
 		one->phil_id = 1;
 		one->dead = 0;
 		one->meal_count = 0;
 		one->fork = 1;
 		one->next = NULL;
-		one->start_time = time;
-		one->last_meal = time;
+		one->start_time = get_time();
+		one->last_meal = one->start_time;
 		one->ready = 0;
 	}
 }
 
-int check_str(int argc, char **argv)
+int	check_str(int argc, char **argv)
 {
-	int i;
-	int j = 1;
+	int	i;
+	int	j;
+
+	j = 1;
 	while (j < argc)
 	{
 		i = 0;
 		while (argv[j][i])
 		{
-			if (i > 9 || !((argv[j][i] >= '0' && argv[j][i] <= '9') || argv[j][i] == '+'))
+			if (i > 9 || !((argv[j][i] >= '0' && argv[j][i] <= '9')
+					|| argv[j][i] == '+'))
 				return (1);
 			i++;
 		}

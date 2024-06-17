@@ -6,15 +6,15 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 15:54:58 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/16 16:52:13 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:34:13 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	create_mutex(phil *head)
+int	create_mutex(t_phil *head)
 {
-	phil			*temp;
+	t_phil			*temp;
 	pthread_mutex_t	print;
 	int				count;
 	int				i;
@@ -22,38 +22,42 @@ void	create_mutex(phil *head)
 	temp = head;
 	count = head->phil_count;
 	i = 0;
-	pthread_mutex_init(&print, NULL);
+	if (pthread_mutex_init(&print, NULL) != 0)
+		return (printf("mutex init failed.\n"), 1);
 	while (temp && i < count)
 	{
-		pthread_mutex_init(&temp->mutex.fork, NULL);
-		pthread_mutex_init(&temp->mutex.last_meal, NULL);
-		pthread_mutex_init(&temp->mutex.dead, NULL);
-		pthread_mutex_init(&temp->mutex.meal_count, NULL);
-		pthread_mutex_init(&temp->mutex.ready, NULL);
+		if (pthread_mutex_init(&temp->mutex.fork, NULL) != 0
+			|| pthread_mutex_init(&temp->mutex.last_meal, NULL) != 0
+			|| pthread_mutex_init(&temp->mutex.dead, NULL) != 0
+			|| pthread_mutex_init(&temp->mutex.meal_count, NULL) != 0
+			|| pthread_mutex_init(&temp->mutex.ready, NULL) != 0)
+			return (printf("mutex init failed.\n"), destroy_mutex(head, i), 1);
 		temp->mutex.print_mutex = print;
 		i++;
 		temp = temp->next;
 	}
-	return ;
+	return (0);
 }
 
-void	destroy_mutex(phil *head)
+void	destroy_mutex(t_phil *head, int count)
 {
-	phil	*temp;
-	int		count;
+	t_phil	*temp;
 	int		i;
 
 	temp = head;
-	count = head->phil_count;
 	i = 0;
 	pthread_mutex_destroy(&temp->mutex.print_mutex);
 	while (i < count)
 	{
-		pthread_mutex_destroy(&temp->mutex.fork);
-		pthread_mutex_destroy(&temp->mutex.last_meal);
-		pthread_mutex_destroy(&temp->mutex.dead);
-		pthread_mutex_destroy(&temp->mutex.meal_count);
-		pthread_mutex_destroy(&temp->mutex.ready);
+		if (pthread_mutex_destroy(&temp->mutex.fork) != 0
+			|| pthread_mutex_destroy(&temp->mutex.last_meal) != 0
+			|| pthread_mutex_destroy(&temp->mutex.dead) != 0
+			|| pthread_mutex_destroy(&temp->mutex.meal_count) != 0
+			|| pthread_mutex_destroy(&temp->mutex.ready) != 0)
+		{
+			printf("mutex destroy failed.\n");
+			return ;
+		}
 		i++;
 		temp = temp->next;
 	}

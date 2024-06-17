@@ -6,15 +6,17 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 15:57:37 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/16 17:07:26 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:40:25 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	*philo_thread(void *arg) // find a better way to sync all threads so they start at the time when every thread is created
+void	*philo_thread(void *arg)
 {
-	phil *one = (phil *)arg;
+	t_phil	*one;
+
+	one = (t_phil *)arg;
 	pthread_mutex_lock(&one->mutex.ready);
 	one->ready = 1;
 	pthread_mutex_unlock(&one->mutex.ready);
@@ -23,54 +25,31 @@ void	*philo_thread(void *arg) // find a better way to sync all threads so they s
 	if ((one->phil_id % 2) != 0)
 		better_usleep((one->eat_time / 2), one);
 	eat(one);
-	if (full_check(one))
-		display_message('t', one);
 	pthread_exit(NULL);
 }
 
 void	*watch_time(void *arg)
 {
-	phil	*one;
-	int		i;
-	int		j;
+	t_phil	*one;
 	int		count;
 	int		die_time;
-	phil	*temp;
 
-	one = (phil *)arg;
+	one = (t_phil *)arg;
 	count = one->phil_count;
-	die_time = one->die_time / 1000;
+	die_time = one->die_time;
 	while (1)
 	{
-		i = 0;
-		j = 0;
-		temp = one;
-		while (i < count)
-		{
-			pthread_mutex_lock(&temp->mutex.last_meal);
-			if (((get_time() - temp->last_meal) > die_time)
-				&& !full_check(temp))
-			{
-				display_message('d', temp);
-				set_dead(one);
-				pthread_mutex_unlock(&temp->mutex.last_meal);
-				pthread_exit(NULL);
-			}
-			pthread_mutex_unlock(&temp->mutex.last_meal);
-			if (full_check(temp))
-				j++;
-			if (j == count)
-				pthread_exit(NULL);
-			temp = temp->next;
-			i++;
-			usleep(500);
-		}
+		if (check_death_time(one, die_time, count))
+			pthread_exit(NULL);
+		else if (all_full(one))
+			pthread_exit(NULL);
+		usleep(500);
 	}
 }
 
-void	create_threads(phil *head)
+int	create_threads(t_phil *head)
 {
-	phil		*temp;
+	t_phil		*temp;
 	int			count;
 	int			i;
 	pthread_t	*tid;
@@ -79,30 +58,49 @@ void	create_threads(phil *head)
 	count = head->phil_count;
 	i = 0;
 	tid = malloc((count + 1) * sizeof(pthread_t));
+	if (!tid)
+		return (printf("malloc error.\n"), 1);
 	while (temp && i < count)
 	{
-		pthread_create(&tid[i], NULL, philo_thread, temp);
+		if (pthread_create(&tid[i], NULL, philo_thread, temp) != 0)
+			return (printf("thread creation failed\n"), join_threads(tid, i),
+				1);
 		i++;
 		temp = temp->next;
 	}
-	pthread_create(&tid[count], NULL, watch_time, head);
-	i = 0;
-	while (i <= count)
-	{
-		pthread_join(tid[i], NULL);
-		i++;
-	}
-	free(tid);
-	return ;
+	if (pthread_create(&tid[count], NULL, watch_time, head) != 0)
+		return (printf("thread creation failed\n"), join_threads(tid, i), 1);
+	return (free(tid), join_threads(tid, count + 1));
 }
 
-int	threads_ready(phil *head) // maybe mutex lock the ready variable
+int	join_threads(pthread_t *tid, int count)
 {
-	phil *temp = head;
-	int count = head->phil_count;
-	int i = 0;
+	int	i;
+
+	i = 0;
+	while (i < count)
+	{
+		if (pthread_join(tid[i], NULL) != 0)
+		{
+			printf("failed to join thread\n");
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
+int	threads_ready(t_phil *head)
+{
+	t_phil	*temp;
+	int		count;
+	int		i;
+
+	temp = head;
+	count = head->phil_count;
+	i = 0;
 	while (temp && i < count)
-	{	
+	{
 		pthread_mutex_lock(&temp->mutex.ready);
 		if (!temp->ready)
 			return (pthread_mutex_unlock(&temp->mutex.ready), 0);
