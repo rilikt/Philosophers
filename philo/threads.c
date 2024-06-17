@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 15:57:37 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/17 16:40:25 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:49:41 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	create_threads(t_phil *head)
 	}
 	if (pthread_create(&tid[count], NULL, watch_time, head) != 0)
 		return (printf("thread creation failed\n"), join_threads(tid, i), 1);
-	return (free(tid), join_threads(tid, count + 1));
+	return (join_threads(tid, count + 1));
 }
 
 int	join_threads(pthread_t *tid, int count)
@@ -83,10 +83,12 @@ int	join_threads(pthread_t *tid, int count)
 		if (pthread_join(tid[i], NULL) != 0)
 		{
 			printf("failed to join thread\n");
+			free(tid);
 			return (1);
 		}
 		i++;
 	}
+	free(tid);
 	return (0);
 }
 
