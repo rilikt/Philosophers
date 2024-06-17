@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:53:12 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/16 15:25:40 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/17 13:25:13 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ phil	*find_link(phil *head)
 	return (temp);
 }
 
-void	append_node(phil *head)
+int	append_node(phil *head)
 {
 	phil	*new_node;
 	phil	*prev;
 
 	new_node = (phil *)malloc(sizeof(phil));
 	if (!new_node)
-		return (error_exit(head));
+		return (printf("malloc error.\n"), 1);
 	if (!head->next)
 		head->next = new_node;
 	else
@@ -57,6 +57,7 @@ void	append_node(phil *head)
 	}
 	new_node->next = head;
 	set_values(new_node, head);
+	return (0);
 }
 
 void	create_list(phil *head)

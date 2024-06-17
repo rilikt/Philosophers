@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 15:37:42 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/16 17:08:33 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/17 13:56:13 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdlib.h>
 # include <sys/time.h>
 # include <unistd.h>
+# include <limits.h>
 
 typedef struct s_mutex
 {
@@ -48,7 +49,7 @@ typedef struct s_args
 	int				start_time;
 }					phil;
 
-void				error_exit(phil *head);
+void				error_msg(void);
 void				free_list(phil *head);
 void				create_list(phil *head);
 void				print_list(phil *head);
@@ -74,5 +75,10 @@ void				better_usleep(int time, phil *phil);
 void				update_meal_count_time(phil *phil);
 void				get_forks(phil *phil);
 void				set_time(phil *head);
+void	init_values(phil *one, int i, int value);
+int check_arguments(int argc, char **argv, phil **one);
+long long int	ft_atoi(const char *str);
+int check_str(int argc, char **argv);
+
 
 #endif

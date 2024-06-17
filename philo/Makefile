@@ -6,11 +6,11 @@
 #    By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/07 14:53:53 by timschmi          #+#    #+#              #
-#    Updated: 2024/06/16 17:11:30 by timschmi         ###   ########.fr        #
+#    Updated: 2024/06/17 13:25:28 by timschmi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS = init_list.c main.c error.c utils.c sleep.c message.c mutex.c threads.c time.c checks.c eat.c
+SRCS = init_list.c main.c error.c utils.c sleep.c message.c mutex.c threads.c time.c checks.c eat.c arguments.c
 
 OFILES = $(SRCS:.c=.o)
 
@@ -24,7 +24,6 @@ all: $(NAME)
 
 $(NAME): $(OFILES)
 	$(CC) $(CFLAGS) -o $@ $^
-	make clean
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $<
