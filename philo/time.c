@@ -6,36 +6,11 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 13:41:25 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/17 20:41:02 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/18 15:47:15 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-void	set_time(t_phil *head)
-{
-	int		count;
-	int		i;
-	t_phil	*temp;
-	int		time;
-
-	count = head->phil_count;
-	i = 0;
-	temp = head;
-	time = get_time();
-	while (temp && i < count)
-	{
-		pthread_mutex_lock(&temp->mutex.ready);
-		pthread_mutex_lock(&temp->mutex.last_meal);
-		temp->start_time = time;
-		temp->last_meal = time;
-		temp->t_sync = 1;
-		pthread_mutex_unlock(&temp->mutex.last_meal);
-		pthread_mutex_unlock(&temp->mutex.ready);
-		temp = temp->next;
-		i++;
-	}
-}
 
 int	get_time(void)
 {

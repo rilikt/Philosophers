@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 14:45:04 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/17 16:34:40 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/18 15:54:20 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,11 @@ void	eat(t_phil *phil)
 	}
 	else
 	{
+		pthread_mutex_lock(&phil->mutex.fork);
+		display_message('f', phil);
 		while (!dead_check(phil))
 			usleep(100);
+		pthread_mutex_unlock(&phil->mutex.fork);
 	}
 }
 

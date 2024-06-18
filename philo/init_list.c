@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:53:12 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/17 20:42:59 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/18 16:21:40 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	set_values(t_phil *new_node, t_phil *head)
 	new_node->full = head->full;
 	new_node->meal_count = 0;
 	new_node->ready = 0;
-	new_node->t_sync = 0;
 }
 
 t_phil	*find_link(t_phil *head)

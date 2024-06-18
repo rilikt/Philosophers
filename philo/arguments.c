@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 12:51:24 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/17 20:40:12 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/18 16:26:56 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	check_arguments(int argc, char **argv, t_phil **one)
 			init_values(*one, i, n);
 		i++;
 	}
-	if (argc == 4)
+	if (argc == 5)
 		init_values(*one, 6, 0);
 	init_values(*one, 0, 0);
 	return (0);
@@ -89,7 +89,6 @@ void	init_values(t_phil *one, int i, int value)
 		one->start_time = get_time();
 		one->last_meal = one->start_time;
 		one->ready = 0;
-		one->t_sync = 0;
 	}
 }
 
