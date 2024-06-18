@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 15:57:37 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/18 16:44:36 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/18 16:49:07 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,6 @@ void	*philo_thread(void *arg)
 	t_phil	*one;
 
 	one = (t_phil *)arg;
-	pthread_mutex_lock(&one->mutex.ready);
-	one->ready = 1;
-	pthread_mutex_unlock(&one->mutex.ready);
 	if ((one->phil_id % 2) != 0 && one->next)
 		better_usleep((one->eat_time / 2), one);
 	eat(one);

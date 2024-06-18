@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 15:37:42 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/18 16:45:09 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/18 16:49:20 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,10 @@ typedef struct s_mutex
 	pthread_mutex_t	dead;
 	pthread_mutex_t	meal_count;
 	pthread_mutex_t	print_mutex;
-	pthread_mutex_t	ready;
-
 }					t_mutex;
 
 typedef struct s_args
 {
-	int				ready;
 	int				phil_id;
 	int				phil_count;
 	int				sleep_time;

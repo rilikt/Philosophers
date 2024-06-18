@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 15:54:58 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/17 16:57:43 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/18 16:50:42 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ int	create_mutex(t_phil *head)
 		if (pthread_mutex_init(&temp->mutex.fork, NULL) != 0
 			|| pthread_mutex_init(&temp->mutex.last_meal, NULL) != 0
 			|| pthread_mutex_init(&temp->mutex.dead, NULL) != 0
-			|| pthread_mutex_init(&temp->mutex.meal_count, NULL) != 0
-			|| pthread_mutex_init(&temp->mutex.ready, NULL) != 0)
+			|| pthread_mutex_init(&temp->mutex.meal_count, NULL) != 0)
 			return (printf("mutex init failed.\n"), destroy_mutex(head, i), 1);
 		temp->mutex.print_mutex = print;
 		i++;
@@ -52,8 +51,7 @@ int	destroy_mutex(t_phil *head, int count)
 		if (pthread_mutex_destroy(&temp->mutex.fork) != 0
 			|| pthread_mutex_destroy(&temp->mutex.last_meal) != 0
 			|| pthread_mutex_destroy(&temp->mutex.dead) != 0
-			|| pthread_mutex_destroy(&temp->mutex.meal_count) != 0
-			|| pthread_mutex_destroy(&temp->mutex.ready) != 0)
+			|| pthread_mutex_destroy(&temp->mutex.meal_count) != 0)
 		{
 			printf("mutex destroy failed.\n");
 			return (1);

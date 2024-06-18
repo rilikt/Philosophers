@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 12:51:24 by timschmi          #+#    #+#             */
-/*   Updated: 2024/06/18 16:26:56 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/06/18 16:49:25 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ void	init_values(t_phil *one, int i, int value)
 		one->next = NULL;
 		one->start_time = get_time();
 		one->last_meal = one->start_time;
-		one->ready = 0;
 	}
 }
 
