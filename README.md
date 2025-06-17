@@ -46,23 +46,3 @@ It was my introduction to multithreading and synchronization. Understanding the 
   ```
 
 ---
-
-## 📂 Project Structure
-
-```bash
-philo/
-├── Makefile
-├── *.c
-├── *.h
-```
-
-Bonus part in a separate `philo_bonus/` directory.
-
----
-
-## 💡 Bonus Version (philo_bonus)
-
-- Uses **processes** instead of threads
-- Implements forks using **semaphores**
-- Parent process manages child philosopher processes
-- Additional constraints apply (e.g., no shared fork state in memory)
